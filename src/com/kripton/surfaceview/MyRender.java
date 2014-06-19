@@ -45,9 +45,11 @@ public class MyRender extends SurfaceView implements Runnable {
 		Paint paint = new Paint();
 		boolean first = true;
 		float radius = 15.0f;
-		float speed = 0.2f;
+		float speedX = 2.0f;
+		float speedY = 2.0f;
 		float currentCenterX = 0.0f;
 		float currentCenterY = 0.0f;
+		Vector objVec = new Vector(0.0f, 0.0f);
 		while(running) {
 			if(!holder.getSurface().isValid()) {
 				continue;
@@ -58,16 +60,26 @@ public class MyRender extends SurfaceView implements Runnable {
 				canvas.drawPaint(paint);
 				paint.setColor(Color.RED);
 				paint.setStrokeWidth(3);
-				currentCenterX = (float) (radius+Math.random()*(width-radius));
-				currentCenterY = (float) (radius+Math.random()*(height-radius));
+				currentCenterX = (float) (radius+5+Math.random()*(width-radius-5));
+				currentCenterY = (float) (radius+5+Math.random()*(height-radius-5));
 				canvas.drawCircle(currentCenterX, currentCenterY, radius, paint);
 				first = false;
 			}
 			else {
 				paint.setColor(Color.WHITE);
 				canvas.drawPaint(paint);
-				currentCenterX += speed;
-				currentCenterY += speed;
+				currentCenterX += speedX;
+				currentCenterY += speedY;
+				objVec.x += speedX;
+				objVec.y += speedY;
+				
+				if(currentCenterX + radius >= width || currentCenterX - radius <= 0) {
+					speedX = -1*speedX;
+				}
+				if(currentCenterY + radius >= height || currentCenterY - radius <= 0) {
+					speedY = -1*speedY;
+				}
+				
 				paint.setColor(Color.RED);
 				paint.setStrokeWidth(3);
 				canvas.drawCircle(currentCenterX, currentCenterY, radius, paint);
