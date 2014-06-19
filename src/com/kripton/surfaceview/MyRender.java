@@ -75,9 +75,13 @@ public class MyRender extends SurfaceView implements Runnable {
 				
 				if(currentCenterX + radius >= width || currentCenterX - radius <= 0) {
 					speedX = -1*speedX;
+					objVec.x = 0;
+					objVec.y = 0;
 				}
 				if(currentCenterY + radius >= height || currentCenterY - radius <= 0) {
 					speedY = -1*speedY;
+					objVec.x = 0;
+					objVec.y = 0;
 				}
 				
 				paint.setColor(Color.RED);
