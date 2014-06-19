@@ -2,6 +2,7 @@ package com.kripton.surfaceview;
 
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +16,8 @@ public class MyRender extends SurfaceView implements Runnable {
 	Thread renderThread = null;
 	int width = 0;
 	int height = 0;
+	Vector normalVer;
+	Vector normalHor;
 	volatile boolean running = false;
 		
 	public MyRender(Context context) {
@@ -55,8 +58,8 @@ public class MyRender extends SurfaceView implements Runnable {
 				canvas.drawPaint(paint);
 				paint.setColor(Color.RED);
 				paint.setStrokeWidth(3);
-				currentCenterX = rand.nextInt()%width;
-				currentCenterY = rand.nextInt()%height;
+				currentCenterX = (float) (radius+Math.random()*(width-radius));
+				currentCenterY = (float) (radius+Math.random()*(height-radius));
 				canvas.drawCircle(currentCenterX, currentCenterY, radius, paint);
 				first = false;
 			}
@@ -73,11 +76,14 @@ public class MyRender extends SurfaceView implements Runnable {
 		}
 	}
 	
+	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
+		normalVer = new Vector(0, height);
+		normalHor = new Vector(width, 0);
 		setMeasuredDimension(width, height);
 	}
 	
